@@ -14,6 +14,8 @@ public class Locadora {
 
         Cliente cliente = new Cliente("12345678910","Italo",strToDate("17/12/1999"),"A");
         clientes.add(cliente);
+        Cliente cliente = new Cliente("12345678911","Italo",strToDate("17/12/1999"),"A");
+        clientes.add(cliente);
 
 
         while (true){
