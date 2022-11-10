@@ -15,13 +15,7 @@ public class Locadora {
         Cliente cliente = new Cliente("12345678910","Italo",strToDate("17/12/1999"),"A");
         clientes.add(cliente);
 
-        //183,43 -nu
-        // 9*63
-        // 1*11,78
-        // 6*10,59
-        // 129,32 -c6
-        // 1*53
-        // 3*40
+
         while (true){
             Scanner sc = new Scanner(System.in);
             printMenuPrincipal();
