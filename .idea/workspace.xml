@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="4dbf0b5d-c296-4cdc-9de8-b2b58a3dbbab" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Locadora.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Locadora.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufrn/Aluguel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufrn/Cliente.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufrn/Funcionario.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/br/ufrn/funcionario/Gerente.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_xerial_sqlite_jdbc_3_25_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/banco.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/Locadora.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/br/ufrn/Aluguel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/br/ufrn/Carro.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/br/ufrn/Cliente.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/br/ufrn/Funcionario.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/br/ufrn/Garagem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/br/ufrn/Moto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/br/ufrn/Veiculo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/br/ufrn/funcionario/Gerente.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Locadora.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Locadora.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Locadora.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Locadora.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,10 +37,18 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2HH28P3KnOazLUlJ1Yt5PUBt8qW" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -45,9 +63,20 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/home/italo/Locadora"
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "/home/italo/Locadora",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\italo\IdeaProjects\lp2\src" />
+      <recent name="C:\Users\italo\IdeaProjects\lp2\src\main" />
+      <recent name="C:\Users\italo\IdeaProjects\lp2" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
