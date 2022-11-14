@@ -162,9 +162,6 @@ public class Locadora {
             }
         }catch (InputMismatchException e){
             System.out.println("Entrada inválida");
-        }finally {
-            System.out.println("Erro ao cadastrar a moto");
-
         }
     }
 
@@ -215,7 +212,9 @@ public class Locadora {
                 System.out.println("| Combustivel: "+resultSet.getString("combustivel"));
                 System.out.println("| Diária    R$:"+resultSet.getString("diaria"));
                 System.out.println("| Status:      "+resultSet.getString("status"));
-                System.out.println("| Locador:     "+resultSet.getString("nome") +" - "+resultSet.getString("cpf"));
+                if(resultSet.getString("status") != null && resultSet.getInt("status") != 0) {
+                    System.out.println("| Locador:     " + resultSet.getString("nome") + " - " + resultSet.getString("cpf"));
+                }
                 if(Objects.equals(resultSet.getString("tipo"), "carro")){
                     System.out.println("| Potência:    "+resultSet.getString("potencia"));
                 }else if(Objects.equals(resultSet.getString("tipo"),"moto")){
@@ -225,13 +224,12 @@ public class Locadora {
                 if(Objects.equals(resultSet.getString("status"), "Livre")){
                     System.out.println("Confirmar venda? (S/N)");
                     String op = sc.nextLine();
-                    if(Objects.equals(op,'S') || Objects.equals(op,'s')){
+                    if(Objects.equals(op,"S") || Objects.equals(op,"s")){
                         if(Objects.equals(resultSet.getString("tipo"), "carro")){
-                            statement.execute("DROP FROM carros WHERE placa = '"+resultSet.getString("placa")+"';");
+                            statement.execute("UPDATE carros SET status='Vendido' WHERE placa = '"+resultSet.getString("placa")+"';");
                         }else if(Objects.equals(resultSet.getString("tipo"),"moto")){
-                            statement.execute("DROP FROM motos WHERE placa = '"+resultSet.getString("placa")+"';");
+                            statement.execute("UPDATE carros SET status='Vendido' WHERE placa = '"+resultSet.getString("placa")+"';");
                         }
-
                         break;
                     }else{
                         System.out.println("Operação cancelada!");
@@ -280,4 +278,4 @@ public class Locadora {
     }
 }
 
-//CREATE VIEW vw_locacoes as select * from (select v.id,v.placa,v.marca,v.modelo,v.cor,v.combustivel,v.diaria,v.status,v.locatario,v.cilindradas,null,'moto' as tipo,c.cpf,c.nome,c.categoriaCNH,c.email,c.nascimento from motos v JOIN clientes c ON c.id = v.locatario UNION select v.id,v.placa,v.marca,v.modelo,v.cor,v.combustivel,v.diaria,v.status,v.locatario,null,v.potencia,'carro' as tipo,c.cpf,c.nome,c.categoriaCNH,c.email,c.nascimento from carros v LEFT JOIN clientes c ON c.id = v.locatario)
+//create view vw_locacoes as select * from (select v.id,v.placa,v.marca,v.modelo,v.cor,v.combustivel,v.diaria,v.status,v.locatario,v.cilindradas,null as potencia,'moto' as tipo,c.cpf,c.nome,c.categoriaCNH,c.email,c.nascimento from motos v LEFT JOIN clientes c ON c.id = v.locatario UNION select v.id,v.placa,v.marca,v.modelo,v.cor,v.combustivel,v.diaria,v.status,v.locatario,null,v.potencia as potencia,'carro' as tipo,c.cpf,c.nome,c.categoriaCNH,c.email,c.nascimento from carros v LEFT JOIN clientes c ON c.id = v.locatario);
