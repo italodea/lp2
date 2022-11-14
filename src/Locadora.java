@@ -210,7 +210,7 @@ public class Locadora {
                 System.out.println("| Modelo:      "+resultSet.getString("modelo"));
                 System.out.println("| Cor:         "+resultSet.getString("cor"));
                 System.out.println("| Combustivel: "+resultSet.getString("combustivel"));
-                System.out.println("| Diária    R$:"+resultSet.getString("diaria"));
+                System.out.println("| Diária        R$:"+resultSet.getString("diaria"));
                 System.out.println("| Status:      "+resultSet.getString("status"));
                 if(resultSet.getString("status") != null && resultSet.getInt("status") != 0) {
                     System.out.println("| Locador:     " + resultSet.getString("nome") + " - " + resultSet.getString("cpf"));
@@ -224,21 +224,39 @@ public class Locadora {
                 if(Objects.equals(resultSet.getString("status"), "Livre")){
                     System.out.println("Confirmar venda? (S/N)");
                     String op = sc.nextLine();
-                    if(Objects.equals(op,"S") || Objects.equals(op,"s")){
-                        if(Objects.equals(resultSet.getString("tipo"), "carro")){
-                            statement.execute("UPDATE carros SET status='Vendido' WHERE placa = '"+resultSet.getString("placa")+"';");
-                        }else if(Objects.equals(resultSet.getString("tipo"),"moto")){
-                            statement.execute("UPDATE carros SET status='Vendido' WHERE placa = '"+resultSet.getString("placa")+"';");
+                    try {
+                        if(Objects.equals(op,"S") || Objects.equals(op,"s")){
+                            String sql = "";
+                            if(Objects.equals(resultSet.getString("tipo"), "carro")){
+                                sql = "UPDATE carros SET status='Vendido' WHERE placa = '"+resultSet.getString("placa")+"';";
+                                statement.execute();
+                            }else if(Objects.equals(resultSet.getString("tipo"),"moto")){
+                                sql = "UPDATE motos SET status='Vendido' WHERE placa = '"+resultSet.getString("placa")+"';";
+                            }else{
+                                break;
+                            }
+                            statement = connection.prepareStatement(sql);
+                            statement.executeUpdate(sql);
+                            break;
+                        }else{
+                            System.out.println("Operação cancelada!");
                         }
-                        break;
-                    }else{
-                        System.out.println("Operação cancelada!");
+                    }catch (SQLException e){
+                        System.out.println(e.getMessage());
                     }
+                }else if(Objects.equals(resultSet.getString("status"),"Vendido")){
+                    System.out.println("Este veiculo já foi vendido e não está mais disponível");
                 }else{
                     System.out.println("Este veículo não pode ser vendido agora");
                 }
             }else{
                 System.out.println("Nenhum veículo encontrado");
+            }
+
+            System.out.println("Deseja pesquisar novamente? (S/N)");
+            String op = sc.nextLine();
+            if(Objects.equals(op, "N") || Objects.equals(op, "n")){
+                break;
             }
         }
 
