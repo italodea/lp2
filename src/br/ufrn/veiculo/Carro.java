@@ -27,6 +27,7 @@ public class Carro extends Veiculo {
 	}
 
 
+
 	public int getPotencia() {
 		return potencia;
 	}
