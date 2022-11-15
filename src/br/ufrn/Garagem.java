@@ -1,5 +1,8 @@
 package br.ufrn;
 
+import br.ufrn.veiculo.Carro;
+import br.ufrn.veiculo.Moto;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,25 +40,51 @@ public class Garagem {
 			}
 		}catch (SQLException e){
 			System.out.println("Erro de SQL");
-			System.out.println(e);
+			System.out.println(e.getMessage());
 		}
 	}
 
-	public boolean getVeiculo(Connection connection, String placa, String placaTratada){
+	public Veiculo getVeiculo(Connection connection, String placa, String placaTratada){
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM vw_locacoes WHERE status='Livre' AND placa in ('"+placa+"','"+placaTratada+"');");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if(resultSet.next()){
-				return true;
+				if(Objects.equals(resultSet.getString("tipo"), "carro")){
+					Carro veiculo = new Carro(
+							resultSet.getString("placa"),
+							resultSet.getString("marca"),
+							resultSet.getString("modelo"),
+							resultSet.getString("cor"),
+							resultSet.getString("combustivel"),
+							resultSet.getFloat("diaria"),
+							resultSet.getString("status"),
+							resultSet.getInt("locatario"),
+							resultSet.getInt("potencia")
+					);
+					veiculo.setId(resultSet.getInt("id"));
+					return veiculo;
+				}else if(Objects.equals(resultSet.getString("tipo"),"moto")){
+					Moto veiculo = new Moto(
+							resultSet.getString("placa"),
+							resultSet.getString("marca"),
+							resultSet.getString("modelo"),
+							resultSet.getString("cor"),
+							resultSet.getString("combustivel"),
+							resultSet.getFloat("diaria"),
+							resultSet.getString("status"),
+							resultSet.getInt("locatario"),
+							resultSet.getInt("cilindradas")
+					);
+					veiculo.setId(resultSet.getInt("id"));
+					return veiculo;
+				}
 			}
 		}catch (SQLException e){
 			System.out.println("Erro de SQL");
-			System.out.println(e);
-		}finally {
-			return false;
+			System.out.println(e.getMessage());
 		}
+		return null;
 	}
-	
-	
+
 
 }

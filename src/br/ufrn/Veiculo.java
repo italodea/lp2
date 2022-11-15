@@ -1,6 +1,7 @@
 package br.ufrn;
 
 public class Veiculo {
+	private int id = 0;
 	private String placa;
 	private String marca;
 	private String modelo;
@@ -25,6 +26,13 @@ public class Veiculo {
 		this.locatorio = locatorio;
 	}
 
+	public void setId(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return this.id;
+	}
 	public String getPlaca() {
 		return placa;
 	}
