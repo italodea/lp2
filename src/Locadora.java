@@ -1,3 +1,4 @@
+import br.ufrn.Garagem;
 import br.ufrn.veiculo.Carro;
 import br.ufrn.veiculo.Moto;
 
@@ -40,6 +41,9 @@ public class Locadora {
                         printMenuGerente();
                         try{
                             int opMenuSecundario = sc.nextInt();
+                            if(opMenuSecundario == 1){
+                                cadastrarAluguel();
+                            }
                             if(opMenuSecundario == 3){
                                 consultaCliente();
                             }else if(opMenuSecundario == 4){
@@ -78,9 +82,47 @@ public class Locadora {
             return formatter.parse(date);
         }catch (ParseException e){
             return new Date(Long.MIN_VALUE);
-        }finally {
-            System.out.println("e");
         }
+    }
+
+    public static void cadastrarAluguel() throws SQLException{
+        Scanner sc = new Scanner(System.in);
+        Garagem garagem = new Garagem();
+        while(true){
+            garagem.getVeiculos(connection);
+            System.out.println("\n\nDigite a placa do veículo que será alugado:");
+            String placa = sc.nextLine();
+            String placaTratada = placa.replace("-","");
+
+        }
+
+    }
+
+    public static void consultaCliente() throws SQLException {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digite parte do nome ou CPF");
+        String termo = sc.nextLine();
+
+        PreparedStatement stmt = connection.prepareStatement("select * from clientes where nome like '%"+termo+"%' or cpf like '%"+termo+"%';");
+        ResultSet resultSet = stmt.executeQuery();
+        while (resultSet.next()) {
+            System.out.println("|------------------------------|");
+            String nome = resultSet.getString("nome");
+            String cpf = resultSet.getString("cpf");
+            String categoriaCNH = resultSet.getString("categoriaCNH");
+            String nascimento = resultSet.getString("nascimento");
+            String email = resultSet.getString("email");
+
+            System.out.println("|Nome:      "+nome);
+            System.out.println("|CPF:       "+cpf);
+            System.out.println("|CNH:       "+categoriaCNH);
+            System.out.println("|Nascimento:"+nascimento);
+            System.out.println("|Contato:   "+email);
+            System.out.println("|------------------------------|");
+            System.out.println("|##############################|");
+        }
+        System.out.println("\n\nPresione Enter para continuar...");
+        sc.nextLine();
     }
 
     public static void cadastrarVeiculo() throws SQLException{
@@ -164,34 +206,6 @@ public class Locadora {
             System.out.println("Entrada inválida");
         }
     }
-
-    public static void consultaCliente() throws SQLException {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Digite parte do nome ou CPF");
-        String termo = sc.nextLine();
-
-        PreparedStatement stmt = connection.prepareStatement("select * from clientes where nome like '%"+termo+"%' or cpf like '%"+termo+"%';");
-        ResultSet resultSet = stmt.executeQuery();
-        while (resultSet.next()) {
-            System.out.println("|------------------------------|");
-            String nome = resultSet.getString("nome");
-            String cpf = resultSet.getString("cpf");
-            String categoriaCNH = resultSet.getString("categoriaCNH");
-            String nascimento = resultSet.getString("nascimento");
-            String email = resultSet.getString("email");
-
-            System.out.println("|Nome:      "+nome);
-            System.out.println("|CPF:       "+cpf);
-            System.out.println("|CNH:       "+categoriaCNH);
-            System.out.println("|Nascimento:"+nascimento);
-            System.out.println("|Contato:   "+email);
-            System.out.println("|------------------------------|");
-            System.out.println("|##############################|");
-        }
-        System.out.println("\n\nPresione Enter para continuar...");
-        sc.nextLine();
-    }
-
 
     public static void venderVeiculo() throws SQLException {
         while (true){
