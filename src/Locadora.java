@@ -154,7 +154,8 @@ public class Locadora {
                 Date dataDevolucao = strToDate(dataD);
                 LocalDate dataDevolucaoTratada = LocalDate.ofInstant(dataDevolucao.toInstant(), ZoneId.systemDefault());
 
-                int dias = Period.between(dataSaidaTratada, dataDevolucaoTratada).getDays();
+                int dias = difDatas(dataSaidaTratada.getYear(), dataDevolucaoTratada.getYear(), dataDevolucaoTratada.getDayOfYear() - dataSaidaTratada.getDayOfYear());
+
                 if (dias > 0) {
                     System.out.println("|------------------|");
                     System.out.println("| Diária:  R$" + veiculo.getDiaria());
@@ -187,6 +188,18 @@ public class Locadora {
         }
     }
 
+    public static int difDatas(int anoSaida, int anoRetorno, int dayofYeardif){
+        int d;
+        if(anoSaida > anoRetorno){
+           return -1;
+        }else if(anoSaida == anoRetorno) {
+            d = dayofYeardif;
+        }else{
+            d = dayofYeardif + ( 364 * (anoRetorno - anoSaida));
+        }
+
+        return d;
+    }
     public static void registrarAluguelMoto(Connection connection, Veiculo veiculo, ResultSet result) {
         try {
             while (true) {
