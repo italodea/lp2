@@ -27,6 +27,7 @@ public class Carro extends Veiculo {
 	}
 
 
+
 	public int getPotencia() {
 		return potencia;
 	}
@@ -50,14 +51,11 @@ public class Carro extends Veiculo {
 					"'" + this.getPotencia() + "'" +
 					")");
 			ResultSet saida = statment.getResultSet();
-			System.out.println(saida);
 			return true;
 		}catch (SQLException e){
 			System.out.println("Erro de SQL");
 			System.out.println(e.getMessage());
 		}
-		finally {
-			return false;
-		}
+		return false;
 	}
 }
