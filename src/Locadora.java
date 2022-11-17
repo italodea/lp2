@@ -258,7 +258,7 @@ public class Locadora {
                     if (result.getString("categoriaCNH").toLowerCase().contains("B".toLowerCase())) {
                         pass = 1;
                     } else {
-                        System.out.println("Nescessário ter habilitação na categoria A para dirigir carros");
+                        System.out.println("Nescessário ter habilitação na categoria B para dirigir carros");
                     }
                 } else if (veiculo instanceof Moto) {
                     if (result.getString("categoriaCNH").toLowerCase().contains("A".toLowerCase())) {
@@ -405,6 +405,7 @@ public class Locadora {
                 );
 
                 carro.store(connection);
+                System.out.println("Carro cadastrada");
             } else if (tipo == 2) {
                 System.out.print("Placa: ");
                 sc.nextLine();
@@ -425,7 +426,7 @@ public class Locadora {
                 System.out.print("Diaria: ");
                 Float diaria = sc.nextFloat();
 
-                System.out.print("Potência: ");
+                System.out.print("Cilindradas: ");
                 int potencia = sc.nextInt();
 
                 Moto moto = new Moto(
@@ -439,6 +440,7 @@ public class Locadora {
                         0,
                         potencia
                 );
+                moto.store(connection);
                 System.out.println("Moto cadastrada");
             }
         } catch (InputMismatchException e) {
