@@ -157,8 +157,7 @@ public class Locadora {
                 Date dataDevolucao = strToDate(dataD);
                 LocalDate dataDevolucaoTratada = LocalDate.ofInstant(dataDevolucao.toInstant(), ZoneId.systemDefault());
 
-                long dias = Period.between(dataSaidaTratada, dataDevolucaoTratada).getDays();
-                dias = getDateDiff(dataSaida,dataDevolucao,TimeUnit.DAYS);
+                long dias = getDateDiff(dataSaida,dataDevolucao,TimeUnit.DAYS);
                 if (dias > 0) {
                     System.out.println("|------------------|");
                     System.out.println("| Diária:  R$" + veiculo.getDiaria());
@@ -204,7 +203,7 @@ public class Locadora {
                 Date dataDevolucao = strToDate(dataD);
                 LocalDate dataDevolucaoTratada = LocalDate.ofInstant(dataDevolucao.toInstant(), ZoneId.systemDefault());
 
-                int dias = Period.between(dataSaidaTratada, dataDevolucaoTratada).getDays();
+                long dias = getDateDiff(dataSaida,dataDevolucao,TimeUnit.DAYS);
                 if (dias > 0) {
                     System.out.println("|------------------|");
                     System.out.println("| Diária:  R$" + veiculo.getDiaria());
