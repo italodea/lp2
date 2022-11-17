@@ -1,8 +1,6 @@
 package br.ufrn.funcionario;
 
-import br.ufrn.Funcionario;
-
-public class Gerente extends Funcionario {
+public class Gerente {
 
     private boolean cadastrarVeiculo(){
         return true;
