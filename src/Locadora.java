@@ -15,7 +15,6 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.sql.*;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class Locadora {
     public static Connection connection;
@@ -35,11 +34,11 @@ public class Locadora {
                             int opMenuSecundario = sc.nextInt();
                             if(opMenuSecundario == 1){
                                 cadastrarAluguel();
-                            } else if (opMenuSecundario == 2){
-                                finalizarAluguel();
-                            } else if (opMenuSecundario == 3) {
+                            }
+                            if (opMenuSecundario == 3) {
                                 consultaCliente();
-                            } else if (opMenuSecundario == 0) {
+                            }
+                            if (opMenuSecundario == 0) {
                                 break;
                             }
 
@@ -54,9 +53,8 @@ public class Locadora {
                             int opMenuSecundario = sc.nextInt();
                             if (opMenuSecundario == 1) {
                                 cadastrarAluguel();
-                            }else if (opMenuSecundario == 2){
-                                finalizarAluguel();
-                            } else if (opMenuSecundario == 3) {
+                            }
+                            if (opMenuSecundario == 3) {
                                 consultaCliente();
                             } else if (opMenuSecundario == 4) {
                                 cadastrarVeiculo();
@@ -77,7 +75,6 @@ public class Locadora {
             }
         }
     }
-
 
     public static void conectar() {
         try {
@@ -157,7 +154,8 @@ public class Locadora {
                 Date dataDevolucao = strToDate(dataD);
                 LocalDate dataDevolucaoTratada = LocalDate.ofInstant(dataDevolucao.toInstant(), ZoneId.systemDefault());
 
-                long dias = getDateDiff(dataSaida,dataDevolucao,TimeUnit.DAYS);
+                int dias = difDatas(dataSaidaTratada.getYear(), dataDevolucaoTratada.getYear(), dataDevolucaoTratada.getDayOfYear() - dataSaidaTratada.getDayOfYear());
+
                 if (dias > 0) {
                     System.out.println("|------------------|");
                     System.out.println("| Diária:  R$" + veiculo.getDiaria());
@@ -168,10 +166,10 @@ public class Locadora {
                     System.out.println("\nConfirmar: (S/N)");
                     String op = sc.nextLine();
                     if (Objects.equals(op, "S") || Objects.equals(op, "s")) {
-                        Aluguel aluguel = new Aluguel(1, result.getInt("id"), veiculo.getId(), dataS, dataD,"C");
+                        Aluguel aluguel = new Aluguel(1, result.getInt("id"), veiculo.getId(), dataS, dataD);
                         aluguel.store(connection);
 
-                        String sql = "UPDATE carros SET status='Alugado',locatario="+result.getInt("id")+" WHERE placa = '" + veiculo.getPlaca() + "';";
+                        String sql = "UPDATE carros SET status='Alugado' WHERE placa = '" + veiculo.getPlaca() + "';";
                         PreparedStatement statement = connection.prepareStatement(sql);
                         statement.execute();
                         System.out.println("Carro foi alugado!");
@@ -190,6 +188,18 @@ public class Locadora {
         }
     }
 
+    public static int difDatas(int anoSaida, int anoRetorno, int dayofYeardif){
+        int d;
+        if(anoSaida > anoRetorno){
+           return -1;
+        }else if(anoSaida == anoRetorno) {
+            d = dayofYeardif;
+        }else{
+            d = dayofYeardif + ( 364 * (anoRetorno - anoSaida));
+        }
+
+        return d;
+    }
     public static void registrarAluguelMoto(Connection connection, Veiculo veiculo, ResultSet result) {
         try {
             while (true) {
@@ -203,7 +213,7 @@ public class Locadora {
                 Date dataDevolucao = strToDate(dataD);
                 LocalDate dataDevolucaoTratada = LocalDate.ofInstant(dataDevolucao.toInstant(), ZoneId.systemDefault());
 
-                long dias = getDateDiff(dataSaida,dataDevolucao,TimeUnit.DAYS);
+                int dias = Period.between(dataSaidaTratada, dataDevolucaoTratada).getDays();
                 if (dias > 0) {
                     System.out.println("|------------------|");
                     System.out.println("| Diária:  R$" + veiculo.getDiaria());
@@ -214,10 +224,10 @@ public class Locadora {
                     System.out.println("\nConfirmar: (S/N)");
                     String op = sc.nextLine();
                     if (Objects.equals(op, "S") || Objects.equals(op, "s")) {
-                        Aluguel aluguel = new Aluguel(1, result.getInt("id"), veiculo.getId(), dataS, dataD,"M");
+                        Aluguel aluguel = new Aluguel(1, result.getInt("id"), veiculo.getId(), dataS, dataD);
                         aluguel.store(connection);
 
-                        String sql = "UPDATE motos SET status='Alugado', locatario="+result.getInt("id")+" WHERE placa = '" + veiculo.getPlaca() + "';";
+                        String sql = "UPDATE motos SET status='Alugado' WHERE placa = '" + veiculo.getPlaca() + "';";
                         PreparedStatement statement = connection.prepareStatement(sql);
                         statement.execute();
                         System.out.println("Moto foi alugada!");
@@ -286,30 +296,6 @@ public class Locadora {
         }
     }
 
-    public static void finalizarAluguel() throws SQLException {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Digite a placa do veículo:");
-        String placa = sc.nextLine();
-        String placaTratada = placa.replace("-","");
-
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM vw_historico_alugueis WHERE status = 'Alugado' AND placa in ('" + placa + "','" + placaTratada + "') LIMIT 1;");
-        ResultSet result = statement.executeQuery();
-        if(result.next()){
-            String sql = "";
-            if(Objects.equals(result.getString("tipo_veiculo"), "C")){
-                sql = "UPDATE carros SET status='Livre',locatario=0 WHERE id="+result.getString("veiculo_id")+";";
-            }else{
-                sql = "UPDATE motos SET status='Livre',locatario=0 WHERE id="+result.getString("veiculo_id")+";";
-            }
-            statement = connection.prepareStatement(sql);
-            statement.execute();
-
-            System.out.println("Veículo devolvido, pressione ENTER para continuar!");
-            sc.nextLine();
-        }else{
-            System.out.println("Nenhum aluguel registrado para este veículo!");
-        }
-    }
     public static void consultaCliente() throws SQLException {
         Scanner sc = new Scanner(System.in);
         System.out.println("Digite parte do nome ou CPF");
@@ -331,37 +317,10 @@ public class Locadora {
             System.out.println("|Nascimento:" + nascimento);
             System.out.println("|Contato:   " + email);
             System.out.println("|------------------------------|");
-
-            System.out.println("||----HISTÓRICO DE ALUGUÉIS-----||");
-
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM vw_historico_alugueis WHERE cpf = '"+cpf+"';");
-            ResultSet result = statement.executeQuery();
-            System.out.println("|MARCA MODELO PLACA | DE : ATÉ");
-            while(result.next()){
-                System.out.println("| "+
-                        result.getString("marca")+
-                        " "+
-                        result.getString("modelo")+
-                        " "+
-                        result.getString("placa")+
-                        " | "+
-                        result.getString("dataSaida")+
-                        " : "+
-                        result.getString("dataRetorno")
-                );
-            }
-
             System.out.println("|##############################|");
         }
-
-
         System.out.println("\n\nPresione Enter para continuar...");
         sc.nextLine();
-    }
-
-    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-        long diffInMillies = date2.getTime() - date1.getTime();
-        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
     }
 
     public static void cadastrarVeiculo() throws SQLException {
@@ -451,9 +410,6 @@ public class Locadora {
     public static void venderVeiculo() throws SQLException {
         while (true) {
             Scanner sc = new Scanner(System.in);
-
-            Garagem g = new Garagem();
-            g.getVeiculos(connection);
             System.out.println("Digite a placa: ");
             String placa = sc.nextLine();
             String placaTratada = placa.replace("-", "");

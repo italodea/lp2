@@ -12,27 +12,24 @@ public class Aluguel {
     private int veiculo;
     private String dataSaida;
     private String dataRetorno;
-    private String tipo;
 
-    public Aluguel(int funcionario, int cliente, int veiculo, String dataSaida, String dataRetorno,String tipo){
+    public Aluguel(int funcionario, int cliente, int veiculo, String dataSaida, String dataRetorno){
         this.funcionario = funcionario;
         this.cliente = cliente;
         this.veiculo = veiculo;
         this.dataSaida = dataSaida;
         this.dataRetorno = dataRetorno;
-        this.tipo = tipo;
     }
 
     public boolean store(Connection connection){
         try{
             Statement statment = connection.createStatement();
-            statment.execute("INSERT INTO alugueis(cliente, veiculo, funcionario, dataSaida, dataRetorno,tipo) VALUES (" +
+            statment.execute("INSERT INTO alugueis(cliente, veiculo, funcionario, dataSaida, dataRetorno) VALUES (" +
                     "'" + this.getCliente() + "'," +
                     "'" + this.getVeiculo() + "'," +
                     "'" + this.getFuncionario() + "'," +
                     "'" + this.getDataSaida() + "'," +
-                    "'" + this.getDataRetorno() + "'," +
-                    "'" + this.getTipo() + "'" +
+                    "'" + this.getDataRetorno() + "'" +
                     ")");
             ResultSet saida = statment.getResultSet();
             return true;
@@ -49,14 +46,6 @@ public class Aluguel {
 
     public void setFuncionario(int funcionario) {
         this.funcionario = funcionario;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public int getCliente() {
